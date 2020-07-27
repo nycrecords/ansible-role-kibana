@@ -24,3 +24,10 @@
     group: root
     mode: 0644
   notify: restart kibana
+
+- name: Make sure Kibana is running before proceeding.
+  wait_for:
+    host: "{{ kibana_server_host }}"
+    port: "{{ kibana_server_port }}"
+    delay: 3
+    timeout: 300  
