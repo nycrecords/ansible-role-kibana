@@ -27,3 +27,13 @@
     - role: nycrecords.java
     - role: nycrecords.elasticsearch
     - role: ansible-role-kibana
+
+  post_tasks:
+    - name: Ensure Kibana is running.
+      uri:
+        url: http://127.0.0.1:5601/login
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 1    

@@ -16,6 +16,16 @@
     state: "{{ kibana_service_state }}"
     enabled: "{{ kibana_service_enabled }}"
 
+- name: Create certs directory
+  file:
+    path: /etc/kibana/certs
+    state: directory
+
+- name: Copy ca cert to certs directory
+  copy:
+    src: "{{ ca_crt }}"
+    dest: /etc/kibana/certs
+  
 - name: Copy Kibana configuration.
   template:
     src: "{{ kibana_config_template }}"
@@ -24,10 +34,3 @@
     group: root
     mode: 0644
   notify: restart kibana
-
-- name: Make sure Kibana is running before proceeding.
-  wait_for:
-    host: "{{ kibana_server_host }}"
-    port: "{{ kibana_server_port }}"
-    delay: 3
-    timeout: 300  

@@ -10,10 +10,9 @@ lint:
 platforms:
   - name: instance
     box: ${VAGRANT_DEFAULT_BOX:-generic/rhel7}
-    # instance_raw_config_args:
-    #   - "vm.network 'forwarded_port', guest: 80, host: 8080"
-    #   - "vm.network 'forwarded_port', guest: 9200, host: 9201"
-    #   - "vm.network 'forwarded_port', guest: 5601, host: 5602"
+    instance_raw_config_args:
+      - "vm.network 'forwarded_port', guest: 9200, host: 9200"
+      - "vm.network 'forwarded_port', guest: 5601, host: 5601"
     groups:
       - elasticsearch
 provisioner:
