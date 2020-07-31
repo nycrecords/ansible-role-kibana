@@ -14,6 +14,8 @@
     
     # Role: ElasticSearch
     elasticsearch_discovery_type: single-node
+    xpack_transport_ssl_enabled: false
+    xpack_http_ssl_enabled: false
 
   roles:
     - role: nycrecords.yum_config_manager

@@ -20,11 +20,13 @@
   file:
     path: /etc/kibana/certs
     state: directory
+  when: kibana_enable_ssl
 
 - name: Copy ca cert to certs directory
   copy:
     src: "{{ ca_crt }}"
     dest: /etc/kibana/certs
+  when: kibana_enable_ssl  
   
 - name: Copy Kibana configuration.
   template:
