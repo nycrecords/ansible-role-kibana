@@ -1,0 +1,35 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  vars:
+    # Role: yum_config_manager
+    repositories:
+      enabled:
+        - rhui-REGION-rhel-server-rhscl
+        - rhui-REGION-rhel-server-debug-rhscl
+    # Role: java
+    java_home: /usr/lib/jvm/java-1.8.0-openjdk.x86_64
+    
+    # Role: ElasticSearch
+    elasticsearch_discovery_type: single-node
+    xpack_transport_ssl_enabled: false
+    xpack_http_ssl_enabled: false
+
+  roles:
+    - role: nycrecords.yum_config_manager
+    - role: nycrecords.java
+    - role: nycrecords.elasticsearch
+    - role: ansible-role-kibana
+
+  post_tasks:
+    - name: Ensure Kibana is running.
+      uri:
+        url: http://127.0.0.1:5601/login
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 1
+  
